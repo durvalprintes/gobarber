@@ -14,7 +14,7 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Data user is not validade!' });
+      return res.status(400).json({ error: 'Data user is not valid!' });
     }
 
     const userExits = await User.findOne({ where: { email: req.body.email } });
@@ -41,7 +41,7 @@ class UserController {
     });
 
     if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Data user is not validade!' });
+      return res.status(400).json({ error: 'Data user is not valid!' });
     }
 
     const { email, oldPassword } = req.body;
