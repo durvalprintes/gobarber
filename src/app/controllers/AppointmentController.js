@@ -1,12 +1,15 @@
 import * as Yup from 'yup';
-import { startOfHour, parse, isBefore } from 'date-fns';
+import { startOfHour, parse, isBefore, format } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 import Appointment from '../models/Appointment';
 import User from '../models/User';
 import File from '../models/File';
+import Notifications from '../schemas/Notifications';
 
 class AppointmentController {
   async index(req, res) {
     const { page = 1 } = req.query;
+
     const appointment = await Appointment.findAll({
       where: { user_id: req.userId, canceled_at: null },
       order: ['date'],
@@ -42,6 +45,7 @@ class AppointmentController {
     const isProvider = await User.findOne({
       where: { provider: true, id: provider_id },
     });
+
     if (!isProvider) {
       return res.status(400).json({ error: 'User is not a Provider!' });
     }
@@ -58,6 +62,7 @@ class AppointmentController {
     const checkAppointment = await Appointment.findOne({
       where: { provider_id, canceled_at: null, date: hourStart },
     });
+
     if (checkAppointment) {
       return res.status(400).json({
         error: 'Appointment date with this provider is not avaliable!',
@@ -69,6 +74,17 @@ class AppointmentController {
       provider_id,
       date,
     });
+
+    const { name } = await User.findByPk(req.userId);
+    const formattedDate = format(hourStart, 'DD [de] MMMM[, às] H:mm[h]', {
+      locale: pt,
+    });
+
+    await Notifications.create({
+      content: `New appointment of ${name} at ${formattedDate}`,
+      user: provider_id,
+    });
+
     return res.json(appointment);
   }
 }
