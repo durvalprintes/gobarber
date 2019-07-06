@@ -1,8 +1,10 @@
 module.exports = {
   dialect: 'postgres',
-  host: '192.168.99.100',
+  // host: '192.168.99.100',
+  // password: 'docker',
+  host: 'rocketseat.c0cx71hgmjoo.sa-east-1.rds.amazonaws.com',
   username: 'postgres',
-  password: 'docker',
+  password: 'AmazonP057',
   database: 'gobarber',
   define: {
     timestamps: true,
