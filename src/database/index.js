@@ -23,7 +23,7 @@ class Database {
 
   mongo() {
     this.mongoConnection = mongoose.connect(
-      'mongodb://192.168.99.100:32768/gobarber',
+      'mongodb+srv://root:root@cluster0-cfdhh.mongodb.net/test?retryWrites=true&w=majority',
       { useNewUrlParser: true, useFindAndModify: true }
     );
   }
