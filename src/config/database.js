@@ -1,11 +1,13 @@
+require('dotenv/config');
+
 module.exports = {
   dialect: 'postgres',
   // host: '192.168.99.100',
   // password: 'docker',
-  host: 'bootcamp.c0cx71hgmjoo.sa-east-1.rds.amazonaws.com',
-  username: 'postgres',
-  password: 'AmazonP057',
-  database: 'gobarber',
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
   define: {
     timestamps: true,
     underscored: true,
